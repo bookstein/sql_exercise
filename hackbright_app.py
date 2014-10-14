@@ -1,20 +1,24 @@
 import sqlite3
+from flask import Flask
+
+app = Flask(__name__)
+
 
 DB = None
 CONN = None
+
+def connect_to_db():
+    global DB, CONN
+    CONN = sqlite3.connect("hackbright.db")
+    DB = CONN.cursor()
 
 def get_student_by_github(github):
     query = """SELECT first_name, last_name, github FROM Students WHERE github = ?"""
     DB.execute(query, (github,))
     row = DB.fetchone()
     print """\
-Student: %s %s
-Github account: %s"""%(row[0], row[1], row[2])
-
-def connect_to_db():
-    global DB, CONN
-    CONN = sqlite3.connect("hackbright.db")
-    DB = CONN.cursor()
+    Student: %s %s
+    Github account: %s"""%(row[0], row[1], row[2])
 
 def make_new_student(first_name, last_name, github):
     query = """INSERT INTO Students VALUES (?, ?, ?)"""
@@ -62,13 +66,13 @@ def give_grade(github, project_title, grade):
         CONN.commit()
         print "Added grade %d to %s for %s" % (int(grade), github, project_title)
 
-
 def get_github(first_name, last_name):
     query = """SELECT github FROM Students WHERE first_name = ? AND last_name = ?"""
     DB.execute(query, (first_name, last_name))
     row = DB.fetchone()
     github = row[0]
     return github
+
 
 def main():
     connect_to_db()
@@ -78,8 +82,6 @@ def main():
         tokens = input_string.split(', ')
         command = tokens[0]
         args = tokens[1:]
-
-
 
 
         if command == "student":
@@ -102,4 +104,4 @@ def main():
     CONN.close()
 
 if __name__ == "__main__":
-    main()
+    app.run(debug=True)
