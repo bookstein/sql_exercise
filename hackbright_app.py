@@ -1,7 +1,4 @@
 import sqlite3
-from flask import Flask
-
-app = Flask(__name__)
 
 
 DB = None
@@ -16,7 +13,7 @@ def get_student_by_github(github):
     query = """SELECT first_name, last_name, github FROM Students WHERE github = ?"""
     DB.execute(query, (github,))
     row = DB.fetchone()
-    print """\
+    return """\
     Student: %s %s
     Github account: %s"""%(row[0], row[1], row[2])
 
@@ -104,4 +101,4 @@ def main():
     CONN.close()
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    main()
