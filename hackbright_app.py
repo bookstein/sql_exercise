@@ -37,6 +37,12 @@ def add_project(title, description, max_grade):
     CONN.commit()
     print "Added project: %s, %s, %d" % (title, description, int(max_grade))
 
+def get_grade(title, first_name, last_name):
+    query = """SELECT * FROM GradesView WHERE project_title = ? AND first_name = ? AND last_name = ?"""
+    DB.execute(query, (title, first_name, last_name))
+    row = DB.fetchone()
+    print "%s %s's grade on %s was %s" % (first_name, last_name, title, row[3])
+
 def main():
     connect_to_db()
     command = None
@@ -54,6 +60,9 @@ def main():
             get_projects(*args)
         elif command == "add_project":
             add_project(*args)
+        elif command == "get_grade":
+            get_grade(*args)
+
 
     CONN.close()
 
