@@ -31,12 +31,18 @@ def get_projects(title):
     Description: %s
     Max Grade: %d """ % (row[1], row[2], row[3])
 
+def add_project(title, description, max_grade):
+    query = """INSERT INTO Projects (title, description, max_grade) VALUES (?, ?, ?)"""
+    DB.execute(query, (title, description, max_grade))
+    CONN.commit()
+    print "Added project: %s, %s, %d" % (title, description, int(max_grade))
+
 def main():
     connect_to_db()
     command = None
     while command != "quit":
         input_string = raw_input("HBA Database> ")
-        tokens = input_string.split()
+        tokens = input_string.split(', ')
         command = tokens[0]
         args = tokens[1:]
 
@@ -46,6 +52,8 @@ def main():
             make_new_student(*args)
         elif command == "project":
             get_projects(*args)
+        elif command == "add_project":
+            add_project(*args)
 
     CONN.close()
 
