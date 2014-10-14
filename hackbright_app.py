@@ -43,6 +43,33 @@ def get_grade(title, first_name, last_name):
     row = DB.fetchone()
     print "%s %s's grade on %s was %s" % (first_name, last_name, title, row[3])
 
+def get_student_grades(first_name, last_name):
+    query = """SELECT title, grade FROM ReportCardView WHERE first_name = ? AND last_name = ?"""
+    print "%s %s" % (first_name, last_name)
+    for row in DB.execute(query, (first_name, last_name)):
+        print "Project: %s - Grade: %s" % (row[0], row[1])
+
+def give_grade(github, project_title, grade):
+    query2 = """SELECT max_grade FROM Projects WHERE title = ?"""
+    DB.execute(query2, (project_title,))
+    row = DB.fetchone()
+    max_grade = int(row[0])
+    if int(grade) > max_grade:
+        print "Can't assign grade of %r! Try again" % grade
+    else:
+        query = """UPDATE Grades SET grade = ? WHERE project_title = ? AND student_github = ?"""
+        DB.execute(query, (grade, project_title, github))
+        CONN.commit()
+        print "Added grade %d to %s for %s" % (int(grade), github, project_title)
+
+
+def get_github(first_name, last_name):
+    query = """SELECT github FROM Students WHERE first_name = ? AND last_name = ?"""
+    DB.execute(query, (first_name, last_name))
+    row = DB.fetchone()
+    github = row[0]
+    return github
+
 def main():
     connect_to_db()
     command = None
@@ -51,6 +78,9 @@ def main():
         tokens = input_string.split(', ')
         command = tokens[0]
         args = tokens[1:]
+
+
+
 
         if command == "student":
             get_student_by_github(*args) 
@@ -62,6 +92,11 @@ def main():
             add_project(*args)
         elif command == "get_grade":
             get_grade(*args)
+        elif command == "get_student_grades":
+            get_student_grades(*args)
+        elif command == "give_grade":
+            give_grade(get_github(tokens[1], tokens[2]), tokens[3], tokens[4])
+
 
 
     CONN.close()
