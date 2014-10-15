@@ -45,9 +45,13 @@ def get_grade(title, first_name, last_name):
 
 def get_student_grades(first_name, last_name):
     query = """SELECT title, grade FROM ReportCardView WHERE first_name = ? AND last_name = ?"""
-    print "%s %s" % (first_name, last_name)
-    for row in DB.execute(query, (first_name, last_name)):
-        print "Project: %s - Grade: %s" % (row[0], row[1])
+    #print "%s %s" % (first_name, last_name)
+    DB.execute(query, (first_name, last_name))
+    rows = DB.fetchall()
+    # for row in DB.execute(query, (first_name, last_name)):
+        # print "Project: %s - Grade: %s" % (row[0], row[1])
+    return rows
+    # print rows
 
 def give_grade(github, project_title, grade):
     query2 = """SELECT max_grade FROM Projects WHERE title = ?"""
