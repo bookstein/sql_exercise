@@ -1,0 +1,20 @@
+<html>
+<head>
+    <title> Project Grades </title>
+</head>
+
+<body>
+
+    <h1>Project Name: {{ title }} </h1>
+    <h2>Description: {{ descrip }} </h2>
+    <h2>Max Grade: {{ max_grade }} </h2>
+
+    <h2>Grades for :</h2>
+    {% for row in rows %}
+            <p> {{ row[0] }} {{ row[1] }} :  {{row[3]}} </p>
+    {% endfor %}
+
+
+
+</body>
+</html>    

@@ -1,0 +1,19 @@
+<html>
+<head>
+    <title> Student information </title>
+</head>
+
+<body>
+
+    <h1>Student: {{ first_name }} {{ last_name }}</h1>
+    <h2>Github account: {{ github }}</h2>
+
+    <h2>Grades for {{ first_name }}:</h2>
+    {% for row in rows %}
+            <p> <a href="/project?project={{row[0]}}"> {{ row[0] }}</a>: {{ row[1] }} </p>
+    {% endfor %}
+
+
+
+</body>
+</html>    
