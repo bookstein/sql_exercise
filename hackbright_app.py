@@ -26,10 +26,11 @@ def get_projects(title):
     query = """SELECT * FROM Projects WHERE title = ?"""
     DB.execute(query, (title,))
     row = DB.fetchone()
-    print """\
-    Project: %s
-    Description: %s
-    Max Grade: %d """ % (row[1], row[2], row[3])
+    return row
+    # print """\
+    # Project: %s
+    # Description: %s
+    # Max Grade: %d """ % (row[1], row[2], row[3])
 
 def add_project(title, description, max_grade):
     query = """INSERT INTO Projects (title, description, max_grade) VALUES (?, ?, ?)"""
@@ -73,6 +74,12 @@ def get_github(first_name, last_name):
     github = row[0]
     return github
 
+def get_all_grades_for_project(project_title):
+    query = """SELECT * FROM GradesView WHERE project_title = ? """
+    DB.execute(query, (project_title,))
+    rows = DB.fetchall()
+    return rows
+    #print rows
 
 def main():
     connect_to_db()

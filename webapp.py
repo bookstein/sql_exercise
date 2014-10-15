@@ -17,7 +17,15 @@ def get_student():
 def get_github():
     return render_template("get_github.html")
 
-
+@app.route("/project")
+def get_project():
+    hackbright_app.connect_to_db()
+    project = request.args.get("project")
+    description = hackbright_app.get_projects(project)
+    rows = hackbright_app.get_all_grades_for_project(project)
+    html = render_template("project_grades.html", rows=rows, title=description[1], descrip=description[2],
+        max_grade= description[3])
+    return html
 
 
 
