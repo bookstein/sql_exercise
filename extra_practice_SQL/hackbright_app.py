@@ -21,7 +21,7 @@ def get_student_by_github(github):
 	query = """SELECT first_name, last_name, github FROM Students WHERE github = ?"""
 	c.execute(query, (github,))
 	row = c.fetchone()
-	print "success!", row
+	print "Student: ", row
 
 def add_student(first_name, last_name, github):
 	query = """INSERT INTO Students VALUES (?,?,?)"""
@@ -35,10 +35,17 @@ def get_project_by_title(title):
 	query = """SELECT * FROM Projects WHERE title = ?"""
 	c.execute(query, (title,))
 	row = c.fetchone()
-	print row
-	# print "About this project:"
-	# print "Project: %s, description: %s, max grade: %d" % (row[1], row[2], row[3])
+	# print row
+	print "About this project:"
+	print "Project: %s, description: %s, max grade: %d" % (row[1], row[2], row[3])
 
+def add_project(title, description, max_grade):
+	query = """INSERT INTO Projects (title, description, max_grade) VALUES (?, ?, ?)"""
+	validate = raw_input("You're sure? (y/n)")
+	if validate == "y":
+		c.execute(query, (title, description, max_grade))
+		print "Successfully added %s, %s, max grade %d" % (title, description, int(max_grade))
+		CONN.commit()
 
 def main():
 	connect_to_DB()
@@ -59,6 +66,8 @@ def main():
 			add_student(*args)
 		elif command == "get_project":
 			get_project_by_title(*args)
+		elif command == "add_project":
+			add_project(*args)
 		elif command == quit:
 			break
 
