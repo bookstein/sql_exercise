@@ -54,6 +54,13 @@ def get_student_grade_by_project(first_name, last_name, project_title):
 	row = c.fetchone()
 	print row
 
+def get_all_grades(first_name, last_name):
+	query="""SELECT * FROM ReportCardView WHERE first_name = ? AND last_name = ?"""
+	c.execute(query, (first_name, last_name))
+	rows = c.fetchall()
+	print rows
+
+
 def give_grade(github, project_title, grade):
 	query = """INSERT INTO Grades (student_github, project_title, grade) VALUES (?, ?, ?)"""
 	validate = raw_input("You're sure? (y/n)")
@@ -88,6 +95,8 @@ def main():
 			get_student_grade_by_project(*args)
 		elif command == "give_grade":
 			give_grade(*args)
+		elif command == "get_grades":
+			get_all_grades(*args)
 		elif command == quit:
 			break
 
