@@ -21,7 +21,7 @@ def get_student_by_github(github):
 	query = """SELECT first_name, last_name, github FROM Students WHERE github = ?"""
 	c.execute(query, (github,))
 	row = c.fetchone()
-	return "Student: ", row
+	return """Student %s %s Github: %s""" % (row[0], row[1], row[2])
 
 def add_student(first_name, last_name, github):
 	query = """INSERT INTO Students VALUES (?,?,?)"""
