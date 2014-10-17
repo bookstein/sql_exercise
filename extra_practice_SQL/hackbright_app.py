@@ -23,6 +23,22 @@ def get_student_by_github(github):
 	row = c.fetchone()
 	print "success!", row
 
+def add_student(first_name, last_name, github):
+	query = """INSERT INTO Students VALUES (?,?,?)"""
+	validate = raw_input("You're sure? (y/n)")
+	if validate == "y":
+		c.execute(query, (first_name, last_name, github))
+		print "Added %s %s, github %s" % (first_name, last_name, github)
+		CONN.commit()
+
+def get_project_by_title(title):
+	query = """SELECT * FROM Projects WHERE title = ?"""
+	c.execute(query, (title,))
+	row = c.fetchone()
+	print row
+	# print "About this project:"
+	# print "Project: %s, description: %s, max grade: %d" % (row[1], row[2], row[3])
+
 
 def main():
 	connect_to_DB()
@@ -31,12 +47,18 @@ def main():
 	#continue to ask for raw_input as long as command is not quit
 	while command != quit:
 		cmd_line_args = raw_input("Look in database>> ")
-		cmd_line_args = cmd_line_args.strip().split(",")
+		cmd_line_args = cmd_line_args.split(",")
+		for arg in cmd_line_args:
+			arg = arg.strip()
 		command = cmd_line_args[0]
 		args = cmd_line_args[1:]
 
 		if command == "get_student":
 			get_student_by_github(*args)
+		elif command == "add_student":
+			add_student(*args)
+		elif command == "get_project":
+			get_project_by_title(*args)
 		elif command == quit:
 			break
 
