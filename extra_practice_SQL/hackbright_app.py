@@ -54,6 +54,15 @@ def get_student_grade_by_project(first_name, last_name, project_title):
 	row = c.fetchone()
 	print row
 
+def give_grade(github, project_title, grade):
+	query = """INSERT INTO Grades (student_github, project_title, grade) VALUES (?, ?, ?)"""
+	validate = raw_input("You're sure? (y/n)")
+	if validate == "y":
+		c.execute(query, (github, project_title, grade))
+		print "Successfully added project %s, grade %s, to %s" % (project_title, grade, github)
+		CONN.commit()
+
+
 def main():
 	connect_to_DB()
 	command = None
@@ -77,6 +86,8 @@ def main():
 			add_project(*args)
 		elif command == "get_grade":
 			get_student_grade_by_project(*args)
+		elif command == "give_grade":
+			give_grade(*args)
 		elif command == quit:
 			break
 
