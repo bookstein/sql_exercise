@@ -21,53 +21,47 @@ def get_student_by_github(github):
 	query = """SELECT first_name, last_name, github FROM Students WHERE github = ?"""
 	c.execute(query, (github,))
 	row = c.fetchone()
-	print "Student: ", row
+	return "Student: ", row
 
 def add_student(first_name, last_name, github):
 	query = """INSERT INTO Students VALUES (?,?,?)"""
-	validate = raw_input("You're sure? (y/n)")
-	if validate == "y":
-		c.execute(query, (first_name, last_name, github))
-		print "Added %s %s, github %s" % (first_name, last_name, github)
-		CONN.commit()
+	c.execute(query, (first_name, last_name, github))
+	CONN.commit()
+	return "Added %s %s, github %s" % (first_name, last_name, github)
+
 
 def get_project_by_title(title):
 	query = """SELECT * FROM Projects WHERE title = ?"""
 	c.execute(query, (title,))
 	row = c.fetchone()
-	# print row
-	print "About this project:"
-	print "Project: %s, description: %s, max grade: %d" % (row[1], row[2], row[3])
+	return "Project: %s, description: %s, max grade: %d" % (row[1], row[2], row[3])
 
 def add_project(title, description, max_grade):
 	query = """INSERT INTO Projects (title, description, max_grade) VALUES (?, ?, ?)"""
-	validate = raw_input("You're sure? (y/n)")
-	if validate == "y":
-		c.execute(query, (title, description, max_grade))
-		print "Successfully added %s, %s, max grade %d" % (title, description, int(max_grade))
-		CONN.commit()
+	c.execute(query, (title, description, max_grade))
+	CONN.commit()
+	return "Successfully added %s, %s, max grade %d" % (title, description, int(max_grade))
+
 
 def get_student_grade_by_project(first_name, last_name, project_title):
 	query = """SELECT first_name, last_name, project_title, grade
 	FROM GradesView WHERE first_name = ? AND last_name = ? AND project_title = ?"""
 	c.execute(query, (first_name, last_name, project_title))
 	row = c.fetchone()
-	print row
+	return row
 
 def get_all_grades(first_name, last_name):
 	query="""SELECT * FROM ReportCardView WHERE first_name = ? AND last_name = ?"""
 	c.execute(query, (first_name, last_name))
 	rows = c.fetchall()
-	print rows
+	return rows
 
 
 def give_grade(github, project_title, grade):
 	query = """INSERT INTO Grades (student_github, project_title, grade) VALUES (?, ?, ?)"""
-	validate = raw_input("You're sure? (y/n)")
-	if validate == "y":
-		c.execute(query, (github, project_title, grade))
-		print "Successfully added project %s, grade %s, to %s" % (project_title, grade, github)
-		CONN.commit()
+	c.execute(query, (github, project_title, grade))
+	CONN.commit()
+	return "Successfully added project %s, grade %s, to %s" % (project_title, grade, github)
 
 
 def main():
