@@ -24,7 +24,12 @@
 
 </div>
 <div id="student-grades">
-{{ grades_rows }}
+	{% for row in grades_rows %}
+
+		{{ row[0] }} {{ row[1] }}: {{ row[3] }}
+		<br>
+
+	{% endfor %}
 
 
 </div>
