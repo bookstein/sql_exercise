@@ -8,6 +8,15 @@
 	h1 {
 		color: blue;
 	}
+
+	h3 {
+		display: inline-block;
+	}
+
+	#list_grades {
+		text-align: center;
+	}
+
 	</style>
 </head>
 <body>
@@ -16,6 +25,12 @@
 <h1>Student: {{ first_name }} {{ last_name }}</h1>
 <h2>Github account: {{ github }}</h2>
 
+<div id="list_grades">
+	{% for grade in grade_rows %}
+	<h3>Project:</h3> {{ grade[0] }} <h3>Grade:</h3> {{ grade[3] }} out of {{ grade[4] }}
+	<br>
+	{% endfor %}
+</div>
 
 </body>
 </html>
