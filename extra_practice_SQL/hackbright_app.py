@@ -50,6 +50,13 @@ def get_student_grade_by_project(first_name, last_name, project_title):
 	row = c.fetchone()
 	return row
 
+def get_all_project_grades(project_title):
+	query = """SELECT first_name, last_name, project_title, grade
+	FROM GradesView WHERE project_title = ?"""
+	c.execute(query, (project_title, ))
+	rows = c.fetchall()
+	return rows
+
 def get_all_grades(first_name, last_name):
 	query="""SELECT * FROM ReportCardView WHERE first_name = ? AND last_name = ?"""
 	c.execute(query, (first_name, last_name))
