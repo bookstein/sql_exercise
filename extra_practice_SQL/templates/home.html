@@ -21,8 +21,8 @@
 	<h1> Welcome to the Hackbright Student Database Interface! </h1>
 	<h4> Last modified {{ date }} </h4>
 
-<!-- create a form that, upon submit, takes us to /student -->
 	<div id="form-container">
+		<!-- action="/student" tells browser where to send form values!!! sends it to /student, which has its own handler  -->
 		<form action="/student">
 			<label for="github">Enter student's github name</label>
 			<input type="text" name="github">
