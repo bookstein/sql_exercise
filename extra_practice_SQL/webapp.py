@@ -23,5 +23,15 @@ def get_student():
 		grade_rows = grade_rows)
 	return html
 
+@app.route("/project")
+def get_project():
+	hackbright_app.connect_to_DB()
+	project_title = request.args.get("project")
+	row = hackbright_app.get_project_by_title(project_title)
+	html = render_template("projects.html", project_title = row[1],
+		description = row[2], max_grade = row[3])
+	# row[0] is the project ID, do not include
+	return html
+
 if __name__ == "__main__":
 	app.run(debug=True)

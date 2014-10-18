@@ -27,7 +27,7 @@
 
 <div id="list_grades">
 	{% for grade in grade_rows %}
-	<h3>Project:</h3> {{ grade[0] }} <h3>Grade:</h3> {{ grade[3] }} out of {{ grade[4] }}
+	<h3><a href="/project?project={{ grade[0] }}">Project</a>:</h3> {{ grade[0] }} <h3>Grade:</h3> {{ grade[3] }} out of {{ grade[4] }}
 	<br>
 	{% endfor %}
 </div>

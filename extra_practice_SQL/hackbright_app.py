@@ -34,7 +34,7 @@ def get_project_by_title(title):
 	query = """SELECT * FROM Projects WHERE title = ?"""
 	c.execute(query, (title,))
 	row = c.fetchone()
-	return "Project: %s, description: %s, max grade: %d" % (row[1], row[2], row[3])
+	return row
 
 def add_project(title, description, max_grade):
 	query = """INSERT INTO Projects (title, description, max_grade) VALUES (?, ?, ?)"""
